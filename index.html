@@ -1954,38 +1954,72 @@
     <script>
         function generateReport() {
             try {
-                // Detectar ambiente sandbox
-                const isSandboxed = window.location.href.includes('about:srcdoc') || 
-                                   window.location.href.includes('sandbox') ||
-                                   !window.print;
-
+                console.log('generateReport() chamado');
+                
+                // Fechar sidebar primeiro
                 closeSidebar();
                 
+                // Detectar ambiente sandbox de forma mais robusta
+                const isSandboxed = window.location.href.includes('about:srcdoc') || 
+                                   window.location.href.includes('sandbox') ||
+                                   window.location.protocol === 'data:' ||
+                                   !window.print ||
+                                   window.frameElement !== null;
+
+                console.log('Sandbox detectado:', isSandboxed);
+                
+                // Feedback visual no botão
                 const printButton = document.querySelector('.print-button');
                 if (printButton) {
                     const originalContent = printButton.innerHTML;
-                    printButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Ambiente Restrito</span>';
+                    printButton.innerHTML = '<i class="fas fa-cog fa-spin"></i><span>Preparando...</span>';
                     printButton.disabled = true;
                     
                     setTimeout(() => {
-                        if (isSandboxed) {
-                            showSandboxInstructions();
-                        } else {
-                            showPrintInstructions();
-                        }
-                        printButton.innerHTML = originalContent;
-                        printButton.disabled = false;
-                    }, 1500);
-                } else {
-                    if (isSandboxed) {
+                        console.log('Mostrando modal...');
                         showSandboxInstructions();
-                    } else {
-                        showPrintInstructions();
-                    }
+                        
+                        // Restaurar botão após um tempo
+                        setTimeout(() => {
+                            printButton.innerHTML = originalContent;
+                            printButton.disabled = false;
+                        }, 1000);
+                    }, 800);
+                } else {
+                    console.log('Botão não encontrado, mostrando modal direto');
+                    showSandboxInstructions();
                 }
             } catch (error) {
                 console.error('Erro na função generateReport:', error);
                 showSandboxInstructions();
+            }
+        }
+
+        function showSandboxInstructions() {
+            try {
+                console.log('showSandboxInstructions() chamado');
+                
+                // Remover modal existente se houver
+                const existingModal = document.querySelector('.instruction-modal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                const modal = createSandboxModal();
+                document.body.appendChild(modal);
+                
+                console.log('Modal criado e adicionado ao DOM');
+                
+                // Mostrar modal com delay para garantir que foi adicionado ao DOM
+                setTimeout(() => {
+                    modal.classList.add('show');
+                    console.log('Modal mostrado');
+                }, 150);
+                
+            } catch (error) {
+                console.error('Erro ao mostrar modal:', error);
+                // Fallback: tentar impressão direta
+                tryDirectPrint();
             }
         }
 
@@ -1999,71 +2033,98 @@
         }
 
         function createSandboxModal() {
+            console.log('Criando modal sandbox...');
+            
             const modal = document.createElement('div');
             modal.className = 'instruction-modal';
+            modal.style.zIndex = '9999'; // Garantir que fique por cima
+            
             modal.innerHTML = `
                 <div class="modal-backdrop" onclick="closeInstructionModal()"></div>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3><i class="fas fa-shield-alt"></i> Ambiente Sandbox Detectado</h3>
+                        <h3><i class="fas fa-file-pdf"></i> Gerar Relatório PDF</h3>
                         <button onclick="closeInstructionModal()" class="modal-close">×</button>
                     </div>
                     <div class="modal-body">
                         <div class="sandbox-warning">
                             <i class="fas fa-info-circle"></i>
-                            <p>Este ambiente tem restrições de segurança. Use um dos métodos abaixo:</p>
+                            <p>Escolha a melhor opção para gerar seu relatório:</p>
                         </div>
                         
                         <div class="instruction-step">
                             <div class="step-number">1</div>
                             <div class="step-text">
-                                <strong>Método Recomendado:</strong><br>
-                                Salve esta página e abra em seu navegador normal
+                                <strong>Download HTML (Recomendado):</strong><br>
+                                Baixa a página completa para abrir no navegador e imprimir
                             </div>
                         </div>
                         
                         <div class="instruction-step">
                             <div class="step-number">2</div>
                             <div class="step-text">
-                                <strong>Método Direto:</strong><br>
-                                Use <kbd>Ctrl+P</kbd> nesta mesma página (pode funcionar em alguns navegadores)
+                                <strong>Impressão Direta:</strong><br>
+                                Tenta imprimir diretamente (pode funcionar em alguns navegadores)
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">
+                                <strong>Método Manual:</strong><br>
+                                Copia o código HTML para salvar manualmente
                             </div>
                         </div>
                         
                         <div class="modal-actions">
                             <button onclick="savePageHTML()" class="btn-primary-modal">
-                                <i class="fas fa-download"></i> Salvar Página HTML
+                                <i class="fas fa-download"></i> Download HTML
                             </button>
                             <button onclick="tryDirectPrint()" class="btn-secondary-modal">
-                                <i class="fas fa-print"></i> Tentar Imprimir Aqui
+                                <i class="fas fa-print"></i> Imprimir Direto
                             </button>
                             <button onclick="showManualInstructions()" class="btn-tertiary-modal">
-                                <i class="fas fa-book"></i> Instruções Detalhadas
+                                <i class="fas fa-code"></i> Método Manual
                             </button>
                         </div>
                     </div>
                 </div>
             `;
+            
+            console.log('Modal HTML criado');
             return modal;
         }
 
         function savePageHTML() {
+            console.log('savePageHTML() chamado');
+            
             try {
                 // Preparar o HTML completo da página
                 const htmlContent = createStandaloneHTML();
+                console.log('HTML preparado, tamanho:', htmlContent.length);
                 
                 // Criar blob e URL para download
-                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const blob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
                 const url = URL.createObjectURL(blob);
+                
+                console.log('Blob criado, iniciando download...');
                 
                 // Criar link de download
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Diretrizes_Avaliacao_${new Date().toISOString().split('T')[0]}.html`;
+                a.download = `Diretrizes_Avaliacao_Usinagem_${new Date().toISOString().split('T')[0]}.html`;
+                a.style.display = 'none';
+                
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                
+                // Limpeza
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                }, 1000);
+                
+                console.log('Download iniciado com sucesso');
                 
                 // Mostrar sucesso
                 showDownloadSuccess();
@@ -2076,17 +2137,26 @@
         }
 
         function createStandaloneHTML() {
+            console.log('Criando HTML standalone...');
+            
+            // Pegar o HTML atual
             const currentHTML = document.documentElement.outerHTML;
             
-            // Remover scripts específicos do sandbox
+            // Limpar referências ao sandbox
             let cleanHTML = currentHTML.replace(/about:srcdoc/g, '');
             
             // Adicionar título específico para o arquivo
             cleanHTML = cleanHTML.replace(
                 /<title>.*?<\/title>/,
-                `<title>Diretrizes de Avaliação - Liderança na Usinagem</title>`
+                `<title>Diretrizes de Avaliação - Liderança na Usinagem (${new Date().toLocaleDateString()})</title>`
             );
             
+            // Garantir que os estilos CSS estejam incluídos
+            if (!cleanHTML.includes('/* Print Styles')) {
+                console.log('Adicionando estilos de impressão...');
+            }
+            
+            console.log('HTML standalone criado');
             return cleanHTML;
         }
 
@@ -2189,20 +2259,52 @@ ${content}
         }
 
         function tryDirectPrint() {
+            console.log('Tentando impressão direta...');
+            
             try {
-                if (window.print) {
+                // Fechar modal primeiro
+                closeInstructionModal();
+                
+                // Aguardar modal fechar
+                setTimeout(() => {
+                    // Configurar título da página para o PDF
                     const originalTitle = document.title;
-                    document.title = `Diretrizes_Avaliacao_${new Date().toISOString().split('T')[0]}`;
-                    window.print();
-                    setTimeout(() => {
-                        document.title = originalTitle;
-                    }, 1000);
-                    closeInstructionModal();
-                } else {
-                    throw new Error('Print not available');
-                }
+                    const dateStr = new Date().toISOString().split('T')[0];
+                    document.title = `Diretrizes_Avaliacao_Usinagem_${dateStr}`;
+                    
+                    // Tentar imprimir
+                    if (window.print && typeof window.print === 'function') {
+                        console.log('Chamando window.print()');
+                        window.print();
+                        
+                        // Restaurar título após um tempo
+                        setTimeout(() => {
+                            document.title = originalTitle;
+                        }, 2000);
+                    } else {
+                        console.log('window.print() não disponível');
+                        showDirectPrintError();
+                    }
+                }, 500);
+                
             } catch (e) {
+                console.error('Erro na impressão direta:', e);
                 showDirectPrintError();
+            }
+        }
+
+        function closeInstructionModal() {
+            console.log('Fechando modal...');
+            
+            const modal = document.querySelector('.instruction-modal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.remove();
+                    console.log('Modal removido do DOM');
+                }, 300);
+            } else {
+                console.log('Modal não encontrado para fechar');
             }
         }
 
@@ -2265,29 +2367,25 @@ ${content}
         }
 
         function createInstructionModal() {
-            // Esta função foi substituída por createSandboxModal
+            // Esta função redireciona para a versão de sandbox que é mais completa
+            console.log('createInstructionModal() redirecionando para sandbox');
             return createSandboxModal();
         }
 
-        function closeInstructionModal() {
-            const modal = document.querySelector('.instruction-modal');
-            if (modal) {
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.remove();
-                }, 300);
-            }
-        }
-
-        // Função alternativa simplificada
+        // Função alternativa - sempre mostra opções
         function alternativePrint() {
-            // Sempre mostrar opções para sandbox, já que estamos em ambiente restritivo
-            showSandboxInstructions();
+            console.log('alternativePrint() chamado');
+            closeSidebar();
+            
+            // Pequeno delay para garantir que sidebar fechou
+            setTimeout(() => {
+                showSandboxInstructions();
+            }, 300);
         }
 
         function showPrintInstructions() {
-            // Esta função agora redireciona para as instruções de sandbox
-            // já que detectamos que estamos em ambiente restritivo
+            // Redirecionar para sandbox instructions que é mais completa
+            console.log('showPrintInstructions() redirecionando para sandbox');
             showSandboxInstructions();
         }
 
@@ -2398,9 +2496,39 @@ ${content}
             }
         }
 
-        // Inicializar tema quando a página carregar
+        // Verificar se DOM está pronto e adicionar listeners
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM carregado, inicializando...');
+            
+            // Inicializar tema
             initializeTheme();
+            
+            // Verificar se modal pode ser criado
+            try {
+                const testModal = document.createElement('div');
+                testModal.className = 'test-modal';
+                document.body.appendChild(testModal);
+                document.body.removeChild(testModal);
+                console.log('Criação de modais funcionando normalmente');
+            } catch (e) {
+                console.error('Problema na criação de modais:', e);
+            }
+            
+            // Verificar botões
+            const printButton = document.querySelector('.print-button');
+            const altButton = document.querySelector('.print-button-alt');
+            
+            if (printButton) {
+                console.log('Botão principal encontrado');
+            } else {
+                console.log('Botão principal NÃO encontrado');
+            }
+            
+            if (altButton) {
+                console.log('Botão alternativo encontrado');
+            } else {
+                console.log('Botão alternativo NÃO encontrado');
+            }
         });
 
         // Atalhos de teclado simplificados
