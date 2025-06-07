@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diretrizes de Avaliação - Liderança na Usinagem</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-gray: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --sidebar-width: 350px;
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --secondary-color: #2563eb;
+            --accent-color: #fbbf24;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #f9fafb;
+            --light-gray: #374151;
+            --border-color: #4b5563;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --bg-gradient-start: #1f2937;
+            --bg-gradient-end: #111827;
+            --card-bg: #374151;
+            --header-bg: #374151;
+        }
+
+        /* Corporate Theme */
+        [data-theme="corporate"] {
+            --primary-color: #6b7280;
+            --secondary-color: #4b5563;
+            --accent-color: #d97706;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --dark-color: #111827;
+            --light-gray: #f3f4f6;
+            --border-color: #d1d5db;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --bg-gradient-start: #f3f4f6;
+            --bg-gradient-end: #e5e7eb;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+        }
+
+        /* High Contrast Theme */
+        [data-theme="contrast"] {
+            --primary-color: #000000;
+            --secondary-color: #1f2937;
+            --accent-color: #d97706;
+            --success-color: #065f46;
+            --warning-color: #92400e;
+            --danger-color: #991b1b;
+            --dark-color: #000000;
+            --light-gray: #f9fafb;
+            --border-color: #000000;
+            --text-primary: #000000;
+            --text-secondary: #374151;
+            --bg-gradient-start: #ffffff;
+            --bg-gradient-end: #f3f4f6;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        /* Menu Button */
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--card-bg);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-content {
+            padding: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-item {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .tip-item h4 {
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+
+        .tip-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .print-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .print-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .print-button-alt {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+
+        .print-button-alt:hover {
+            background: linear-gradient(135deg, var(--secondary-color), #1e3a8a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .theme-option {
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--light-gray);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .theme-option.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Theme previews */
+        .theme-option[data-theme="default"] {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .theme-option[data-theme="dark"] {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: white;
+            border-color: #374151;
+        }
+
+        .theme-option[data-theme="corporate"] {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            color: white;
+            border-color: #6b7280;
+        }
+
+        .theme-option[data-theme="contrast"] {
+            background: linear-gradient(135deg, #000000, #374151);
+            color: white;
+            border-color: #000000;
+        }
+
+        .theme-info {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Modal de Instruções */
+        .instruction-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .instruction-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .instruction-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .step-text strong {
+            color: var(--primary-color);
+        }
+
+        .step-text kbd {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-modal {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary-modal:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary-modal {
+            background: var(--light-gray);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-secondary-modal:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 15px;
+        }
+
+        .success-message h3 {
+            color: var(--success-color);
+            margin-bottom: 10px;
+        }
+
+        .url-display {
+            text-align: center;
+        }
+
+        .url-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .url-box:hover {
+            background: var(--border-color);
+            transform: scale(1.02);
+        }
+
+        /* Estilos específicos para sandbox */
+        .sandbox-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sandbox-warning i {
+            color: #856404;
+            font-size: 1.2rem;
+        }
+
+        .sandbox-warning p {
+            margin: 0;
+            color: #856404;
+        }
+
+        .btn-tertiary-modal {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-tertiary-modal:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .download-steps {
+            text-align: left;
+            margin-top: 15px;
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .download-steps ol {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .download-steps li {
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .copy-html-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .textarea-section {
+            text-align: center;
+        }
+
+        .textarea-section textarea {
+            background: var(--light-gray);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            resize: vertical;
+        }
+
+        .textarea-section textarea:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-message i {
+            font-size: 3rem;
+            color: var(--warning-color);
+            margin-bottom: 15px;
+        }
+
+        .error-message h3 {
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+
+        .manual-instructions {
+            text-align: left;
+        }
+
+        .manual-instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .method-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .method-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .method-section ol {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .method-section li {
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .method-section p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .method-section kbd {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Responsividade para modais */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .instruction-step {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .step-number {
+                align-self: center;
+            }
+        }
+
+        .print-info {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Header */
+        .header {
+            background: var(--header-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--success-color));
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .signature-logo {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .signature-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 1px;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            font-weight: 500;
+        }
+
+        /* Competência Cards */
+        .competencia-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: clamp(20px, 4vw, 30px);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .competencia-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .competencia-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            flex-wrap: wrap;
+        }
+
+        .competencia-icon {
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            flex-shrink: 0;
+        }
+
+        .competencia-title {
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: 600;
+            color: var(--dark-color);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .criterios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .criterio-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .criterio-item i {
+            color: var(--success-color);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .notas-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .notas-title {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .nota-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nota-a {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .nota-b {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .nota-c {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .nota-letra {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        /* Resumo Section */
+        .resumo-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: clamp(20px, 4vw, 30px);
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .resumo-section h2 {
+            font-size: clamp(1.3rem, 3.5vw, 1.6rem);
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .tabela-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .tabela-resumo {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tabela-resumo th {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .tabela-resumo td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            color: var(--text-primary);
+            background: var(--card-bg);
+        }
+
+        .tabela-resumo tr:hover {
+            background: var(--light-gray);
+        }
+
+        /* Method Section */
+        .metodo-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 16px;
+            padding: clamp(20px, 4vw, 30px);
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metodo-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .metodo-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .metodo-content h2 {
+            font-size: clamp(1.3rem, 3.5vw, 1.6rem);
+            margin-bottom: 15px;
+        }
+
+        .tres-perguntas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .pergunta-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .pergunta-card h4 {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .menu-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .sidebar {
+                max-width: 90%;
+            }
+            
+            .competencia-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .criterios-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .notas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tres-perguntas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px;
+            }
+            
+            .competencia-card {
+                padding: 15px;
+            }
+            
+            .signature-logo {
+                font-size: 1.5rem;
+            }
+            
+            .criterio-item {
+                padding: 12px;
+            }
+            
+            .nota-item {
+                padding: 12px;
+            }
+        }
+
+        /* Print Styles - Otimizado para todos os temas */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .menu-button,
+            .sidebar,
+            .overlay {
+                display: none !important;
+            }
+            
+            /* Reset para impressão - cores fixas */
+            body {
+                background: white !important;
+                font-size: 11pt !important;
+                line-height: 1.3 !important;
+                color: black !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .container {
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 10pt !important;
+            }
+
+            /* Cabeçalho - cores fixas para impressão */
+            .header {
+                background: white !important;
+                border: 2px solid #2563eb !important;
+                border-radius: 5pt !important;
+                margin-bottom: 15pt !important;
+                padding: 15pt !important;
+                page-break-inside: avoid !important;
+            }
+
+            .header::before {
+                background: #2563eb !important;
+                height: 4pt !important;
+            }
+
+            .signature-logo {
+                color: #2563eb !important;
+                font-size: 16pt !important;
+                -webkit-text-fill-color: #2563eb !important;
+            }
+
+            .header h1 {
+                font-size: 20pt !important;
+                color: black !important;
+                margin: 8pt 0 !important;
+            }
+
+            .header p {
+                font-size: 12pt !important;
+                color: #666 !important;
+            }
+
+            .badge {
+                background: #2563eb !important;
+                color: white !important;
+                padding: 4pt 8pt !important;
+                border-radius: 10pt !important;
+                font-size: 9pt !important;
+            }
+
+            /* Cards das Competências - cores fixas */
+            .competencia-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                border-radius: 5pt !important;
+                margin-bottom: 12pt !important;
+                padding: 12pt !important;
+                page-break-inside: avoid !important;
+            }
+
+            .competencia-header {
+                border-bottom: 1pt solid #ddd !important;
+                padding-bottom: 8pt !important;
+                margin-bottom: 10pt !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            .competencia-icon {
+                background: #2563eb !important;
+                color: white !important;
+                width: 25pt !important;
+                height: 25pt !important;
+                font-size: 12pt !important;
+                border-radius: 4pt !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 8pt !important;
+            }
+
+            .competencia-title {
+                font-size: 14pt !important;
+                color: black !important;
+                font-weight: bold !important;
+                margin: 0 !important;
+            }
+
+            .criterios-grid {
+                display: block !important;
+                margin: 8pt 0 !important;
+            }
+
+            .criterio-item {
+                background: #f5f5f5 !important;
+                border-left: 3pt solid #10b981 !important;
+                margin-bottom: 6pt !important;
+                padding: 6pt !important;
+                display: block !important;
+                page-break-inside: avoid !important;
+                font-size: 10pt !important;
+                color: black !important;
+            }
+
+            .criterio-item i {
+                color: #10b981 !important;
+                margin-right: 6pt !important;
+            }
+
+            /* Seção de Notas - cores fixas */
+            .notas-section {
+                background: #f8f8f8 !important;
+                border: 1px solid #ccc !important;
+                margin-top: 10pt !important;
+                padding: 10pt !important;
+                page-break-inside: avoid !important;
+            }
+
+            .notas-title {
+                font-size: 11pt !important;
+                font-weight: bold !important;
+                color: black !important;
+                margin-bottom: 8pt !important;
+            }
+
+            .notas-grid {
+                display: block !important;
+            }
+
+            .nota-item {
+                border: 1px solid #999 !important;
+                margin-bottom: 6pt !important;
+                padding: 6pt !important;
+                border-radius: 3pt !important;
+                page-break-inside: avoid !important;
+                font-size: 9pt !important;
+            }
+
+            .nota-a {
+                background: #10b981 !important;
+                color: white !important;
+            }
+
+            .nota-b {
+                background: #f59e0b !important;
+                color: white !important;
+            }
+
+            .nota-c {
+                background: #6b7280 !important;
+                color: white !important;
+            }
+
+            .nota-letra {
+                font-size: 12pt !important;
+                font-weight: bold !important;
+                margin-bottom: 3pt !important;
+            }
+
+            /* Tabela Resumo - cores fixas */
+            .resumo-section {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                margin: 15pt 0 !important;
+                padding: 12pt !important;
+                page-break-before: always !important;
+            }
+
+            .resumo-section h2 {
+                font-size: 16pt !important;
+                color: black !important;
+                margin-bottom: 10pt !important;
+                border-bottom: 2pt solid #2563eb !important;
+                padding-bottom: 4pt !important;
+            }
+
+            .tabela-container {
+                overflow: visible !important;
+            }
+
+            .tabela-resumo {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                border: 1px solid #999 !important;
+                font-size: 9pt !important;
+            }
+
+            .tabela-resumo th {
+                background: #2563eb !important;
+                color: white !important;
+                padding: 6pt !important;
+                font-weight: bold !important;
+                border: 1px solid #999 !important;
+                text-align: left !important;
+            }
+
+            .tabela-resumo td {
+                padding: 4pt 6pt !important;
+                border: 1px solid #999 !important;
+                font-size: 8pt !important;
+                color: black !important;
+                background: white !important;
+            }
+
+            .tabela-resumo tr:nth-child(even) td {
+                background: #f5f5f5 !important;
+            }
+
+            /* Método 3 Perguntas - cores fixas */
+            .metodo-section {
+                background: #2563eb !important;
+                color: white !important;
+                margin: 15pt 0 !important;
+                padding: 12pt !important;
+                border-radius: 5pt !important;
+                page-break-inside: avoid !important;
+                page-break-before: always !important;
+            }
+
+            .metodo-section::before {
+                display: none !important;
+            }
+
+            .metodo-content h2 {
+                font-size: 14pt !important;
+                color: white !important;
+                margin-bottom: 8pt !important;
+            }
+
+            .tres-perguntas {
+                display: block !important;
+            }
+
+            .pergunta-card {
+                background: rgba(255,255,255,0.2) !important;
+                border: 1px solid rgba(255,255,255,0.5) !important;
+                margin-bottom: 8pt !important;
+                padding: 8pt !important;
+                page-break-inside: avoid !important;
+                border-radius: 3pt !important;
+            }
+
+            .pergunta-card h4 {
+                font-size: 11pt !important;
+                color: white !important;
+                margin-bottom: 4pt !important;
+            }
+
+            .pergunta-card p {
+                color: white !important;
+                font-size: 10pt !important;
+                margin: 0 !important;
+            }
+
+            /* Footer - cores fixas */
+            .footer {
+                background: white !important;
+                border-top: 1px solid #ccc !important;
+                text-align: center !important;
+                padding: 8pt !important;
+                margin-top: 15pt !important;
+                page-break-inside: avoid !important;
+            }
+
+            .footer p {
+                color: #666 !important;
+                font-size: 8pt !important;
+                margin: 0 !important;
+            }
+
+            /* Quebras de página otimizadas */
+            .competencia-card:nth-child(4) {
+                page-break-before: always !important;
+            }
+
+            .competencia-card:nth-child(6) {
+                page-break-before: always !important;
+            }
+
+            /* Configurações de página */
+            @page {
+                size: A4 !important;
+                margin: 1.5cm !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button class="menu-button" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay -->
+    <div class="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-lightbulb"></i> Dicas & Ferramentas</h3>
+            <button class="sidebar-close" onclick="closeSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-calendar-week"></i> Implementação Semanal</h3>
+                <div class="tip-item">
+                    <h4>📅 Segunda-feira</h4>
+                    <p>Observe <strong>Especialista</strong> e <strong>Profissionalismo</strong> - Foque na organização e conhecimento técnico</p>
+                </div>
+                <div class="tip-item">
+                    <h4>📅 Quarta-feira</h4>
+                    <p>Observe <strong>Colaboração</strong> e <strong>Negócios</strong> - Foque no trabalho em equipe e visão de custos</p>
+                </div>
+                <div class="tip-item">
+                    <h4>📅 Sexta-feira</h4>
+                    <p>Observe <strong>Iniciativa</strong> e faça <strong>síntese geral</strong> - Compile as observações da semana</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-eye"></i> O que Observar</h3>
+                <div class="tip-item">
+                    <h4>🔍 Durante Setup</h4>
+                    <p>Organização, método, autonomia, conhecimento técnico</p>
+                </div>
+                <div class="tip-item">
+                    <h4>🔍 Em Pressão</h4>
+                    <p>Colaboração, qualidade mantida, gestão de conflitos</p>
+                </div>
+                <div class="tip-item">
+                    <h4>🔍 Passagem de Turno</h4>
+                    <p>Comunicação, informações precisas, responsabilidade</p>
+                </div>
+                <div class="tip-item">
+                    <h4>🔍 Problemas na Produção</h4>
+                    <p>Proatividade, resolução autônoma, visão sistêmica</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-comments"></i> Perguntas Práticas</h3>
+                <div class="tip-item">
+                    <h4>💬 "Por que fez dessa forma?"</h4>
+                    <p>Avalia conhecimento técnico e raciocínio</p>
+                </div>
+                <div class="tip-item">
+                    <h4>💬 "O que acontece se..."</h4>
+                    <p>Testa visão sistêmica e consequências</p>
+                </div>
+                <div class="tip-item">
+                    <h4>💬 "Como podemos melhorar?"</h4>
+                    <p>Verifica proatividade e melhoria contínua</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-palette"></i> Tema Visual</h3>
+                <div class="theme-selector">
+                    <div class="theme-option active" data-theme="default" onclick="changeTheme('default')">
+                        <i class="fas fa-paint-brush"></i>
+                        Padrão
+                    </div>
+                    <div class="theme-option" data-theme="dark" onclick="changeTheme('dark')">
+                        <i class="fas fa-moon"></i>
+                        Dark
+                    </div>
+                    <div class="theme-option" data-theme="corporate" onclick="changeTheme('corporate')">
+                        <i class="fas fa-building"></i>
+                        Corporativo
+                    </div>
+                    <div class="theme-option" data-theme="contrast" onclick="changeTheme('contrast')">
+                        <i class="fas fa-adjust"></i>
+                        Alto Contraste
+                    </div>
+                </div>
+                <p class="theme-info">Escolha o tema que melhor se adapta ao seu ambiente</p>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-chart-line"></i> Ferramentas de Apoio</h3>
+                <div class="tip-item">
+                    <h4>📱 App de Notas</h4>
+                    <p>Registre observações em tempo real durante o dia</p>
+                </div>
+                <div class="tip-item">
+                    <h4>📋 Checklist Semanal</h4>
+                    <p>Crie uma lista das 5 competências para marcar</p>
+                </div>
+                <div class="tip-item">
+                    <h4>🎯 Método 3C</h4>
+                    <p><strong>C</strong>omportamento + <strong>C</strong>ontexto + <strong>C</strong>onsistência</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-file-pdf"></i> Relatório</h3>
+                <button class="print-button" onclick="generateReport()">
+                    <i class="fas fa-download"></i>
+                    <span>Baixar Página HTML</span>
+                </button>
+                <button class="print-button-alt" onclick="alternativePrint()">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Ver Todas as Opções</span>
+                </button>
+                <p class="print-info">Detecta automaticamente ambiente restrito e oferece soluções compatíveis</p>
+                <div class="tip-item" style="margin-top: 10px; font-size: 0.8rem;">
+                    <h4>🛡️ Ambiente Sandbox</h4>
+                    <p>Sistema detecta restrições e oferece método de <strong>download HTML</strong> para impressão</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-logo">
+                <div class="signature-logo">Rogerinho Ramos</div>
+            </div>
+            <h1><i class="fas fa-clipboard-check"></i> Diretrizes de Avaliação</h1>
+            <p>Guia Prático para Liderança na Usinagem</p>
+            <div class="badge">
+                <i class="fas fa-star"></i>
+                5 Competências Oficiais
+            </div>
+        </div>
+
+        <!-- Competência 1 -->
+        <div class="competencia-card">
+            <div class="competencia-header">
+                <div class="competencia-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h2 class="competencia-title">1. Age como um especialista</h2>
+            </div>
+            
+            <div class="criterios-grid">
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Domínio técnico:</strong><br>
+                        Conhece parâmetros, ferramentas, materiais
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Resolução de problemas:</strong><br>
+                        Identifica causa raiz, não só sintoma
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Ensina outros:</strong><br>
+                        Compartilha conhecimento, desenvolve colegas
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Melhoria contínua:</strong><br>
+                        Aplica lições aprendidas, otimiza processos
+                    </div>
+                </div>
+            </div>
+
+            <div class="notas-section">
+                <div class="notas-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Critério de Notas
+                </div>
+                <div class="notas-grid">
+                    <div class="nota-item nota-a">
+                        <div class="nota-letra">A</div>
+                        <div>Resolve problemas complexos + ensina + inova processos</div>
+                    </div>
+                    <div class="nota-item nota-b">
+                        <div class="nota-letra">B</div>
+                        <div>Domina sua função + ajuda colegas + aplica conhecimento</div>
+                    </div>
+                    <div class="nota-item nota-c">
+                        <div class="nota-letra">C</div>
+                        <div>Conhece o básico + executa tarefas + busca ajuda quando precisa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competência 2 -->
+        <div class="competencia-card">
+            <div class="competencia-header">
+                <div class="competencia-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h2 class="competencia-title">2. Colabora competentemente e com integridade</h2>
+            </div>
+            
+            <div class="criterios-grid">
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Comunicação eficaz:</strong><br>
+                        Informações claras entre turnos/setores
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Trabalho em equipe:</strong><br>
+                        Ajuda colegas sem prejudicar própria produção
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Gestão de conflitos:</strong><br>
+                        Resolve problemas sem escalações desnecessárias
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Confiabilidade:</strong><br>
+                        Cumpre acordos, é transparente
+                    </div>
+                </div>
+            </div>
+
+            <div class="notas-section">
+                <div class="notas-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Critério de Notas
+                </div>
+                <div class="notas-grid">
+                    <div class="nota-item nota-a">
+                        <div class="nota-letra">A</div>
+                        <div>Líder natural + resolve conflitos + constrói relacionamentos</div>
+                    </div>
+                    <div class="nota-item nota-b">
+                        <div class="nota-letra">B</div>
+                        <div>Colabora ativamente + comunica bem + é confiável</div>
+                    </div>
+                    <div class="nota-item nota-c">
+                        <div class="nota-letra">C</div>
+                        <div>Trabalha em equipe + evita conflitos + cumpre básico</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competência 3 -->
+        <div class="competencia-card">
+            <div class="competencia-header">
+                <div class="competencia-icon">
+                    <i class="fas fa-target"></i>
+                </div>
+                <h2 class="competencia-title">3. Foco nos negócios</h2>
+            </div>
+            
+            <div class="criterios-grid">
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Visão de custos:</strong><br>
+                        Entende impacto financeiro das suas ações
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Equilíbrio qualidade/prazo:</strong><br>
+                        Não sacrifica um pelo outro
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Orientação a resultados:</strong><br>
+                        Foca no objetivo final, não só na tarefa
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Sustentabilidade:</strong><br>
+                        Considera recursos (energia, materiais, tempo)
+                    </div>
+                </div>
+            </div>
+
+            <div class="notas-section">
+                <div class="notas-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Critério de Notas
+                </div>
+                <div class="notas-grid">
+                    <div class="nota-item nota-a">
+                        <div class="nota-letra">A</div>
+                        <div>Propõe melhorias que geram economia + visão estratégica</div>
+                    </div>
+                    <div class="nota-item nota-b">
+                        <div class="nota-letra">B</div>
+                        <div>Equilibra custo/qualidade/prazo + entende o negócio</div>
+                    </div>
+                    <div class="nota-item nota-c">
+                        <div class="nota-letra">C</div>
+                        <div>Cumpre metas + entende básico de custos + segue diretrizes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competência 4 -->
+        <div class="competencia-card">
+            <div class="competencia-header">
+                <div class="competencia-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 class="competencia-title">4. Profissionalismo</h2>
+            </div>
+            
+            <div class="criterios-grid">
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Organização:</strong><br>
+                        Posto limpo, ferramentas no lugar, documentação em dia
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Foco no cliente:</strong><br>
+                        Pensa na aplicação final da peça
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Métodos estruturados:</strong><br>
+                        Segue procedimentos, tem sequência lógica
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Padrão de qualidade:</strong><br>
+                        Não aceita "mais ou menos"
+                    </div>
+                </div>
+            </div>
+
+            <div class="notas-section">
+                <div class="notas-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Critério de Notas
+                </div>
+                <div class="notas-grid">
+                    <div class="nota-item nota-a">
+                        <div class="nota-letra">A</div>
+                        <div>Referência em organização + melhora processos + zero defeito</div>
+                    </div>
+                    <div class="nota-item nota-b">
+                        <div class="nota-letra">B</div>
+                        <div>Sempre organizado + segue padrões + qualidade consistente</div>
+                    </div>
+                    <div class="nota-item nota-c">
+                        <div class="nota-letra">C</div>
+                        <div>Organização básica + segue procedimentos + qualidade aceitável</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competência 5 -->
+        <div class="competencia-card">
+            <div class="competencia-header">
+                <div class="competencia-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h2 class="competencia-title">5. Toma iniciativas e Age com foco</h2>
+            </div>
+            
+            <div class="criterios-grid">
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Antecipa problemas:</strong><br>
+                        Age antes que pare a produção
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Autonomia:</strong><br>
+                        Decide dentro de sua competência sem depender sempre do líder
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Proatividade:</strong><br>
+                        Faz além do mínimo necessário
+                    </div>
+                </div>
+                <div class="criterio-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Inovação:</strong><br>
+                        Testa métodos diferentes, busca eficiência
+                    </div>
+                </div>
+            </div>
+
+            <div class="notas-section">
+                <div class="notas-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Critério de Notas
+                </div>
+                <div class="notas-grid">
+                    <div class="nota-item nota-a">
+                        <div class="nota-letra">A</div>
+                        <div>Antecipa tudo + alta autonomia + inova constantemente</div>
+                    </div>
+                    <div class="nota-item nota-b">
+                        <div class="nota-letra">B</div>
+                        <div>Proativo + decide bem + busca melhorias</div>
+                    </div>
+                    <div class="nota-item nota-c">
+                        <div class="nota-letra">C</div>
+                        <div>Age quando necessário + autonomia básica + cumpre função</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela Resumo -->
+        <div class="resumo-section">
+            <h2><i class="fas fa-table"></i> Tabela Rápida de Avaliação</h2>
+            <div class="tabela-container">
+                <table class="tabela-resumo">
+                    <thead>
+                        <tr>
+                            <th>Competência</th>
+                            <th>Nota A</th>
+                            <th>Nota B</th>
+                            <th>Nota C</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Especialista</strong></td>
+                            <td>Inova + Ensina</td>
+                            <td>Domina + Ajuda</td>
+                            <td>Executa + Aprende</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Colaboração</strong></td>
+                            <td>Lidera equipe</td>
+                            <td>Trabalha bem</td>
+                            <td>Não atrapalha</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Negócios</strong></td>
+                            <td>Gera economia</td>
+                            <td>Equilibra bem</td>
+                            <td>Cumpre metas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Profissionalismo</strong></td>
+                            <td>Referência</td>
+                            <td>Consistente</td>
+                            <td>Adequado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Iniciativa</strong></td>
+                            <td>Antecipa tudo</td>
+                            <td>Proativo</td>
+                            <td>Age quando precisa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Método 3 Perguntas -->
+        <div class="metodo-section">
+            <div class="metodo-content">
+                <h2><i class="fas fa-question-circle"></i> Método Prático "3 Perguntas"</h2>
+                <p>Para cada competência, pergunte:</p>
+                
+                <div class="tres-perguntas">
+                    <div class="pergunta-card">
+                        <h4>📈 Ele faz MAIS que o esperado?</h4>
+                        <p><strong>→ NOTA A</strong></p>
+                    </div>
+                    <div class="pergunta-card">
+                        <h4>✅ Ele faz EXATAMENTE o esperado?</h4>
+                        <p><strong>→ NOTA B</strong></p>
+                    </div>
+                    <div class="pergunta-card">
+                        <h4>📉 Ele faz MENOS que o esperado?</h4>
+                        <p><strong>→ NOTA C</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Desenvolvido por Rogerinho Ramos</p>
+        </div>
+    </div>
+
+    <script>
+        function generateReport() {
+            try {
+                // Detectar ambiente sandbox
+                const isSandboxed = window.location.href.includes('about:srcdoc') || 
+                                   window.location.href.includes('sandbox') ||
+                                   !window.print;
+
+                closeSidebar();
+                
+                const printButton = document.querySelector('.print-button');
+                if (printButton) {
+                    const originalContent = printButton.innerHTML;
+                    printButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Ambiente Restrito</span>';
+                    printButton.disabled = true;
+                    
+                    setTimeout(() => {
+                        if (isSandboxed) {
+                            showSandboxInstructions();
+                        } else {
+                            showPrintInstructions();
+                        }
+                        printButton.innerHTML = originalContent;
+                        printButton.disabled = false;
+                    }, 1500);
+                } else {
+                    if (isSandboxed) {
+                        showSandboxInstructions();
+                    } else {
+                        showPrintInstructions();
+                    }
+                }
+            } catch (error) {
+                console.error('Erro na função generateReport:', error);
+                showSandboxInstructions();
+            }
+        }
+
+        function showSandboxInstructions() {
+            const modal = createSandboxModal();
+            document.body.appendChild(modal);
+            
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 100);
+        }
+
+        function createSandboxModal() {
+            const modal = document.createElement('div');
+            modal.className = 'instruction-modal';
+            modal.innerHTML = `
+                <div class="modal-backdrop" onclick="closeInstructionModal()"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-shield-alt"></i> Ambiente Sandbox Detectado</h3>
+                        <button onclick="closeInstructionModal()" class="modal-close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="sandbox-warning">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Este ambiente tem restrições de segurança. Use um dos métodos abaixo:</p>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">
+                                <strong>Método Recomendado:</strong><br>
+                                Salve esta página e abra em seu navegador normal
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">
+                                <strong>Método Direto:</strong><br>
+                                Use <kbd>Ctrl+P</kbd> nesta mesma página (pode funcionar em alguns navegadores)
+                            </div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button onclick="savePageHTML()" class="btn-primary-modal">
+                                <i class="fas fa-download"></i> Salvar Página HTML
+                            </button>
+                            <button onclick="tryDirectPrint()" class="btn-secondary-modal">
+                                <i class="fas fa-print"></i> Tentar Imprimir Aqui
+                            </button>
+                            <button onclick="showManualInstructions()" class="btn-tertiary-modal">
+                                <i class="fas fa-book"></i> Instruções Detalhadas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return modal;
+        }
+
+        function savePageHTML() {
+            try {
+                // Preparar o HTML completo da página
+                const htmlContent = createStandaloneHTML();
+                
+                // Criar blob e URL para download
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                
+                // Criar link de download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Diretrizes_Avaliacao_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Mostrar sucesso
+                showDownloadSuccess();
+                
+            } catch (error) {
+                console.error('Erro ao salvar HTML:', error);
+                // Fallback: mostrar o HTML para copiar
+                showHTMLToCopy();
+            }
+        }
+
+        function createStandaloneHTML() {
+            const currentHTML = document.documentElement.outerHTML;
+            
+            // Remover scripts específicos do sandbox
+            let cleanHTML = currentHTML.replace(/about:srcdoc/g, '');
+            
+            // Adicionar título específico para o arquivo
+            cleanHTML = cleanHTML.replace(
+                /<title>.*?<\/title>/,
+                `<title>Diretrizes de Avaliação - Liderança na Usinagem</title>`
+            );
+            
+            return cleanHTML;
+        }
+
+        function showDownloadSuccess() {
+            const modal = document.querySelector('.modal-body');
+            if (modal) {
+                modal.innerHTML = `
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Página Salva!</h3>
+                        <p>Abra o arquivo baixado em seu navegador e use <kbd>Ctrl+P</kbd> para imprimir/salvar como PDF.</p>
+                        <div class="download-steps">
+                            <p><strong>Próximos passos:</strong></p>
+                            <ol>
+                                <li>Localize o arquivo baixado (.html)</li>
+                                <li>Abra com seu navegador (Chrome, Firefox, etc.)</li>
+                                <li>Pressione <kbd>Ctrl+P</kbd></li>
+                                <li>Escolha "Salvar como PDF"</li>
+                                <li>Marque "Gráficos de fundo" nas opções</li>
+                            </ol>
+                        </div>
+                        <button onclick="closeInstructionModal()" class="btn-primary-modal">
+                            Entendi
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function showHTMLToCopy() {
+            const modal = document.querySelector('.modal-body');
+            if (modal) {
+                modal.innerHTML = `
+                    <div class="copy-html-section">
+                        <h3>Método Manual</h3>
+                        <p>Copie o código abaixo e salve como arquivo .html:</p>
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Clique no botão abaixo para copiar o código</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Abra um editor de texto (Bloco de Notas)</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Cole o código e salve como "diretrizes.html"</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Abra o arquivo no navegador e imprima</div>
+                        </div>
+                        <button onclick="copyHTMLCode()" class="btn-primary-modal">
+                            <i class="fas fa-copy"></i> Copiar Código HTML
+                        </button>
+                        <button onclick="closeInstructionModal()" class="btn-secondary-modal">
+                            Fechar
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function copyHTMLCode() {
+            try {
+                const htmlContent = createStandaloneHTML();
+                navigator.clipboard.writeText(htmlContent).then(() => {
+                    const button = document.querySelector('.btn-primary-modal');
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                    }, 2000);
+                }).catch(() => {
+                    showTextArea(htmlContent);
+                });
+            } catch (e) {
+                showTextArea(createStandaloneHTML());
+            }
+        }
+
+        function showTextArea(content) {
+            const modal = document.querySelector('.modal-body');
+            if (modal) {
+                modal.innerHTML = `
+                    <div class="textarea-section">
+                        <h3>Copie o código abaixo:</h3>
+                        <textarea readonly onclick="this.select()" style="width: 100%; height: 200px; font-family: monospace; font-size: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px;">
+${content}
+                        </textarea>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                            Clique na área de texto para selecionar tudo, depois Ctrl+C para copiar
+                        </p>
+                        <button onclick="closeInstructionModal()" class="btn-primary-modal">
+                            Fechar
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function tryDirectPrint() {
+            try {
+                if (window.print) {
+                    const originalTitle = document.title;
+                    document.title = `Diretrizes_Avaliacao_${new Date().toISOString().split('T')[0]}`;
+                    window.print();
+                    setTimeout(() => {
+                        document.title = originalTitle;
+                    }, 1000);
+                    closeInstructionModal();
+                } else {
+                    throw new Error('Print not available');
+                }
+            } catch (e) {
+                showDirectPrintError();
+            }
+        }
+
+        function showDirectPrintError() {
+            const modal = document.querySelector('.modal-body');
+            if (modal) {
+                modal.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Impressão Bloqueada</h3>
+                        <p>Este ambiente não permite impressão direta. Use o método "Salvar Página HTML" acima.</p>
+                        <button onclick="showSandboxInstructions(); closeInstructionModal();" class="btn-primary-modal">
+                            Voltar às Opções
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function showManualInstructions() {
+            const modal = document.querySelector('.modal-body');
+            if (modal) {
+                modal.innerHTML = `
+                    <div class="manual-instructions">
+                        <h3>📖 Instruções Completas</h3>
+                        
+                        <div class="method-section">
+                            <h4>🎯 Método Recomendado (Mais Fácil):</h4>
+                            <ol>
+                                <li>Clique em "Salvar Página HTML"</li>
+                                <li>Abra o arquivo baixado no seu navegador normal</li>
+                                <li>Use <kbd>Ctrl+P</kbd> → "Salvar como PDF"</li>
+                                <li>Marque "Gráficos de fundo" nas opções</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="method-section">
+                            <h4>📱 Se não conseguir baixar:</h4>
+                            <ol>
+                                <li>Use "Copiar Código HTML"</li>
+                                <li>Abra Bloco de Notas (ou editor de texto)</li>
+                                <li>Cole o código copiado</li>
+                                <li>Salve como "diretrizes.html"</li>
+                                <li>Abra o arquivo no navegador</li>
+                                <li>Imprima normalmente</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="method-section">
+                            <h4>💡 Dica:</h4>
+                            <p>O relatório final terá ~8 páginas em formato A4 profissional com todas as diretrizes de avaliação.</p>
+                        </div>
+                        
+                        <button onclick="showSandboxInstructions(); closeInstructionModal();" class="btn-primary-modal">
+                            Voltar às Opções
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function createInstructionModal() {
+            // Esta função foi substituída por createSandboxModal
+            return createSandboxModal();
+        }
+
+        function closeInstructionModal() {
+            const modal = document.querySelector('.instruction-modal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+
+        // Função alternativa simplificada
+        function alternativePrint() {
+            // Sempre mostrar opções para sandbox, já que estamos em ambiente restritivo
+            showSandboxInstructions();
+        }
+
+        function showPrintInstructions() {
+            // Esta função agora redireciona para as instruções de sandbox
+            // já que detectamos que estamos em ambiente restritivo
+            showSandboxInstructions();
+        }
+
+        function openInNewTab() {
+            // Esta função não funciona em sandbox, então mostra alternativas
+            showSandboxInstructions();
+        }
+
+        function copyCurrentURL() {
+            try {
+                // Em sandbox, a URL atual não é útil
+                // Então vamos para o método de salvar HTML
+                savePageHTML();
+            } catch (e) {
+                showHTMLToCopy();
+            }
+        }
+
+        function showCopySuccess() {
+            // Redirecionar para download de HTML que é mais útil
+            showDownloadSuccess();
+        }
+
+        function showURLToUser() {
+            // Em ambiente sandbox, mostrar HTML é mais útil que URL
+            showHTMLToCopy();
+        }
+
+        function selectURL(element) {
+            try {
+                const range = document.createRange();
+                range.selectNodeContents(element);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } catch (e) {
+                // Ignorar erros de seleção
+            }
+        }
+
+        // Sistema de Temas - Sem localStorage
+        let currentTheme = 'default';
+
+        function changeTheme(themeName) {
+            try {
+                // Aplicar tema no documento
+                document.documentElement.setAttribute('data-theme', themeName);
+                currentTheme = themeName;
+                
+                // Atualizar seletor visual
+                updateThemeSelector(themeName);
+                
+                // Feedback visual suave
+                document.body.style.transition = 'all 0.5s ease';
+                setTimeout(() => {
+                    document.body.style.transition = '';
+                }, 500);
+                
+            } catch (error) {
+                console.error('Erro ao alterar tema:', error);
+            }
+        }
+
+        function updateThemeSelector(activeTheme) {
+            // Remover classe active de todos os temas
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Adicionar classe active ao tema selecionado
+            const activeOption = document.querySelector(`[data-theme="${activeTheme}"]`);
+            if (activeOption) {
+                activeOption.classList.add('active');
+            }
+        }
+
+        function detectSystemTheme() {
+            try {
+                // Verificar preferência do sistema
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                } else {
+                    return 'default';
+                }
+            } catch (e) {
+                return 'default';
+            }
+        }
+
+        function initializeTheme() {
+            try {
+                // Usar tema do sistema como padrão
+                const systemTheme = detectSystemTheme();
+                changeTheme(systemTheme);
+                
+                // Detectar mudanças na preferência do sistema
+                if (window.matchMedia) {
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                        // Aplicar automaticamente se ainda estiver no tema padrão
+                        if (currentTheme === 'default' || currentTheme === 'dark') {
+                            changeTheme(e.matches ? 'dark' : 'default');
+                        }
+                    });
+                }
+            } catch (e) {
+                // Fallback para tema padrão
+                changeTheme('default');
+            }
+        }
+
+        // Inicializar tema quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+        });
+
+        // Atalhos de teclado simplificados
+        document.addEventListener('keydown', function(e) {
+            try {
+                // ESC para fechar sidebar
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                    closeInstructionModal();
+                }
+            } catch (error) {
+                // Ignorar erros de teclado
+            }
+        });
+
+        function toggleSidebar() {
+            try {
+                const sidebar = document.getElementById('sidebar');
+                const isActive = sidebar && sidebar.classList.contains('active');
+                
+                if (isActive) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            } catch (error) {
+                console.error('Erro ao alternar sidebar:', error);
+            }
+        }
+
+        function openSidebar() {
+            try {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.overlay');
+                
+                if (sidebar) sidebar.classList.add('active');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                console.error('Erro ao abrir sidebar:', error);
+            }
+        }
+
+        function closeSidebar() {
+            try {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.overlay');
+                
+                if (sidebar) sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } catch (error) {
+                // Ignorar erros ao fechar sidebar
+            }
+        }
+
+        // Fechar sidebar com ESC (movido para cima para evitar duplicação)
+        // Esta função agora está no addEventListener principal
+
+        // Smooth scroll para dispositivos móveis
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            try {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            } catch (error) {
+                // Ignorar erros de scroll
+            }
+        });
+    </script>
+</body>
+</html>
